@@ -61,7 +61,7 @@ CORS_HEADERS=Content-Type,Authorization,x-user-id
 
 # File Upload
 STORAGE_TYPE=local
-UPLOAD_MAX_FILE_SIZE=31457280
+UPLOAD_MAX_FILE_SIZE=52428800
 UPLOAD_BASE_DIR=uploads
 EOF
         echo "✅ .env 文件已创建，请检查并更新配置"
@@ -75,7 +75,7 @@ else
 
 # File Upload
 STORAGE_TYPE=local
-UPLOAD_MAX_FILE_SIZE=31457280
+UPLOAD_MAX_FILE_SIZE=52428800
 UPLOAD_BASE_DIR=uploads
 EOF
         echo "✅ 文件上传配置已添加"

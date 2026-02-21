@@ -68,3 +68,56 @@ export type FileListDto = {
   url: string;
   thumbnailUrl?: string;
 };
+
+// 轉錄狀態與前端對齊的 logic flag
+export type LogicFlagCategory =
+  | 'permissions'
+  | 'import-export'
+  | 'hierarchy'
+  | 'data-flow';
+export type LogicFlagSeverity = 'warning' | 'critical' | 'info';
+export type LogicFlagDto = {
+  id: string;
+  category: LogicFlagCategory;
+  severity: LogicFlagSeverity;
+  message: string;
+  source: string;
+};
+
+export type FileTranscriptDto = {
+  id: string;
+  fileId: string;
+  transcript: string;
+  language: string | null;
+  duration: number | null;
+  wordCount: number | null;
+  whisperModel: string | null;
+  status: string;
+  errorMessage: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type FileAnalysisDto = {
+  id: string;
+  fileId: string;
+  summary: string | null;
+  keyDecisions: unknown[] | null;
+  risks: unknown[] | null;
+  dependencies: unknown[] | null;
+  logicFlags: LogicFlagDto[] | null;
+  claudeModel: string | null;
+  status: string;
+  errorMessage: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type FileProcessingStatusDto = {
+  fileId: string;
+  transcriptStatus: 'not_started' | 'processing' | 'completed' | 'failed';
+  analysisStatus: 'not_started' | 'processing' | 'completed' | 'failed';
+  overall: 'not_started' | 'processing' | 'completed' | 'failed';
+  transcriptErrorMessage?: string | null;
+  analysisErrorMessage?: string | null;
+};

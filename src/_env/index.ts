@@ -117,7 +117,7 @@ const envSchema = z.object({
     .number()
     .min(1 * 1024 * 1024, 'Max file size must be at least 1MB')
     .max(100 * 1024 * 1024, 'Max file size should not exceed 100MB')
-    .default(30 * 1024 * 1024) // 30 MB
+    .default(50 * 1024 * 1024) // 50 MB
     .describe('單一檔案上傳最大限制 (位元組)'),
   // Local Storage 設定
   UPLOAD_BASE_DIR: z.string().default('uploads').describe('檔案上傳基礎目錄'),
@@ -132,6 +132,20 @@ const envSchema = z.object({
   NAS_USERNAME: z.string().default('').describe('NAS 帳號'),
   NAS_PASSWORD: z.string().default('').describe('NAS 密碼'),
   NAS_BASE_PATH: z.string().default('/uploads').describe('NAS 基礎路徑'),
+
+  // ================================
+  // 🎤 Whisper (OpenAI) & Claude (Anthropic)
+  // ================================
+  OPENAI_API_KEY: z.string().optional().default('').describe('OpenAI API Key (Whisper 語音轉文字)'),
+  ANTHROPIC_API_KEY: z.string().optional().default('').describe('Anthropic API Key (Claude 分析)'),
+  WHISPER_MODEL: z.string().default('whisper-1').describe('Whisper 模型'),
+  CLAUDE_MODEL: z.string().default('claude-3-5-sonnet-20241022').describe('Claude 模型'),
+  /** 開發用：true 時不呼叫 Whisper/Claude，回傳假轉錄與假分析，不花 API 額度 */
+  MOCK_AUDIO_PROCESSING: z
+    .string()
+    .optional()
+    .transform((v) => v === 'true' || v === '1')
+    .default('false'),
 });
 
 let env: z.infer<typeof envSchema>;

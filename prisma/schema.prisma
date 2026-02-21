@@ -116,6 +116,9 @@ model File {
 
   project Project? @relation("ProjectFiles", fields: [projectId], references: [uuid])
 
+  transcript FileTranscript? @relation("FileTranscript")
+  analysis   FileAnalysis?   @relation("FileAnalysis")
+
   @@index([projectId])
   @@index([uploadedById])
   @@index([fileHash])
@@ -123,4 +126,54 @@ model File {
   @@index([createdAt])
   @@index([deletedAt])
   @@map("files")
+}
+
+// 檔案轉錄（僅音檔，與 File 一對一綁定）
+model FileTranscript {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid()) @db.Uuid
+  fileId    String   @unique @map("file_id") @db.Uuid
+  file      File     @relation("FileTranscript", fields: [fileId], references: [uuid], onDelete: Cascade)
+
+  transcript   String   @db.Text
+  language     String?  @db.VarChar(10)
+  duration     Int?
+  wordCount    Int?     @map("word_count")
+  whisperModel String?  @map("whisper_model") @db.VarChar(50)
+
+  status       String   @default("pending") @db.VarChar(20)
+  errorMessage String?  @map("error_message") @db.Text
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([fileId])
+  @@index([status])
+  @@map("file_transcripts")
+}
+
+// 檔案分析（與 File 一對一綁定）
+model FileAnalysis {
+  id        Int     @id @default(autoincrement())
+  uuid      String  @unique @default(uuid()) @db.Uuid
+  fileId    String  @unique @map("file_id") @db.Uuid
+  file      File    @relation("FileAnalysis", fields: [fileId], references: [uuid], onDelete: Cascade)
+
+  summary      String? @db.Text
+  keyDecisions Json?   @map("key_decisions")
+  risks        Json?
+  dependencies Json?
+  logicFlags   Json?   @map("logic_flags")
+
+  claudeModel String? @map("claude_model") @db.VarChar(50)
+
+  status       String  @default("pending") @db.VarChar(20)
+  errorMessage String? @map("error_message") @db.Text
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([fileId])
+  @@index([status])
+  @@map("file_analyses")
 }

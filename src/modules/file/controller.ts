@@ -129,4 +129,63 @@ export const fileController = {
       next(error);
     }
   },
+
+  // 取得處理狀態（轉錄/分析）
+  async getProcessingStatus(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const params = fileIdParamSchema.parse(req.params);
+      const currentUserId = req.user.id;
+      const status = await fileService.getProcessingStatus(currentUserId, params.fileId);
+      res.status(200).json({ success: true, data: status });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // 取得轉錄
+  async getTranscript(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const params = fileIdParamSchema.parse(req.params);
+      const currentUserId = req.user.id;
+      const transcript = await fileService.getTranscript(currentUserId, params.fileId);
+      if (!transcript) {
+        res.status(404).json({ success: false, message: '尚無轉錄' });
+        return;
+      }
+      res.status(200).json({ success: true, data: transcript });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // 取得分析
+  async getAnalysis(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const params = fileIdParamSchema.parse(req.params);
+      const currentUserId = req.user.id;
+      const analysis = await fileService.getAnalysis(currentUserId, params.fileId);
+      if (!analysis) {
+        res.status(404).json({ success: false, message: '尚無分析' });
+        return;
+      }
+      res.status(200).json({ success: true, data: analysis });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // 手動觸發處理（僅音檔）
+  async triggerProcess(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const params = fileIdParamSchema.parse(req.params);
+      const currentUserId = req.user.id;
+      await fileService.triggerProcess(currentUserId, params.fileId);
+      res.status(202).json({
+        success: true,
+        message: '已排入處理，請輪詢 processing-status 查詢進度',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

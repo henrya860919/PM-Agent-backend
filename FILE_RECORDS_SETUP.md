@@ -13,7 +13,7 @@
    - 需要在 `.env` 文件中添加以下配置：
      ```
      STORAGE_TYPE=local
-     UPLOAD_MAX_FILE_SIZE=31457280
+     UPLOAD_MAX_FILE_SIZE=52428800
      UPLOAD_BASE_DIR=uploads
      ```
 
@@ -157,4 +157,4 @@ npm run dev
 1. 确保 `.env` 文件配置正确
 2. 确保数据库迁移已运行
 3. 确保 `uploads` 目录有写入权限
-4. 文件大小限制默认 30MB，可在 `.env` 中配置
+4. 文件大小限制默认 50MB，可在 `.env` 中配置

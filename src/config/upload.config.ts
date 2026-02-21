@@ -12,6 +12,8 @@ export const uploadConfig = {
     'audio/mpeg',
     'audio/mp3',
     'audio/wav',
+    'audio/mp4',   // M4A
+    'audio/x-m4a', // M4A (alternate)
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-excel',
@@ -37,6 +39,8 @@ export const uploadConfig = {
     'audio/mpeg',
     'audio/mp3',
     'audio/wav',
+    'audio/mp4',
+    'audio/x-m4a',
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-excel',

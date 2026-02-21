@@ -38,7 +38,7 @@ cp .env.example .env  # 如果 .env 不存在
 ```env
 # 文件上传配置
 STORAGE_TYPE=local
-UPLOAD_MAX_FILE_SIZE=31457280  # 30MB
+UPLOAD_MAX_FILE_SIZE=52428800  # 50MB
 UPLOAD_BASE_DIR=uploads
 ```
 
@@ -93,5 +93,5 @@ npm run dev
 
 1. 确保数据库已启动并连接正常
 2. 确保 `uploads` 目录有写入权限
-3. 文件大小限制默认 30MB，可在 `.env` 中调整
+3. 文件大小限制默认 50MB，可在 `.env` 中调整
 4. 支持的文件类型在 `src/config/upload.config.ts` 中配置

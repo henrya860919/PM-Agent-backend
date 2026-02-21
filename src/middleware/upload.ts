@@ -40,10 +40,9 @@ export const uploadSingleFile = (fieldName: string = 'file') => {
           files: 1,
         },
       });
-      // 標記是否已處理檔案
+      // 標記是否已處理檔案、是否已在 file 階段報錯（避免 finish 時重複 next）
       let fileProcessed = false;
-      // 用於緩存檔案數據的緩衝區陣列
-      const chunks: Buffer[] = [];
+      let filePhaseError = false;
       // 初始化 req.body
       if (!req.body) {
         req.body = {};
@@ -55,25 +54,19 @@ export const uploadSingleFile = (fieldName: string = 'file') => {
         (req.body as any)[fieldname] = value;
       });
 
-      // 處理檔案上傳事件
+      // 處理檔案上傳事件（大檔只寫入暫存檔，不組裝記憶體 buffer，避免截斷或損壞）
       busboy.on('file', (fieldname, file, info) => {
-        // 只處理指定欄位的檔案
         if (fieldname !== fieldName) {
           file.resume();
           return;
         }
-        // 如果已經處理過檔案，則跳過
         if (fileProcessed) {
           file.resume();
           return;
         }
-        // 解析檔案資訊
         const { filename, mimeType } = info;
-
-        // 將檔名轉換為 UTF-8
         const decodedOriginalFilename = Buffer.from(filename, 'latin1').toString('utf8');
 
-        // 驗證 MIME type
         if (!uploadConfig.allowedMimeTypes.includes(mimeType)) {
           file.resume();
           return next(
@@ -82,29 +75,20 @@ export const uploadSingleFile = (fieldName: string = 'file') => {
             ),
           );
         }
-        // 標記已處理檔案
         fileProcessed = true;
-        // 生成唯一檔名
         const uniqueFilename = generateUniqueFilename(decodedOriginalFilename);
-        // 臨時目錄
         const tempDir = path.join(storageConfig.local?.basePath || 'uploads', 'temp');
-        // 構建檔案儲存路徑
         const filepath = path.join(tempDir, uniqueFilename);
-        // 確保目錄存在
         if (!fs.existsSync(tempDir)) {
           fs.mkdirSync(tempDir, { recursive: true });
         }
-        // 建立寫入串流
         const writeStream = fs.createWriteStream(filepath);
-        // 寫入檔案並緩存數據
         let fileSize = 0;
-        // 監聽資料事件
+
         file.on('data', (chunk: Buffer) => {
           fileSize += chunk.length;
-          chunks.push(chunk);
           writeStream.write(chunk);
         });
-        // 監聽檔案大小限制事件
         file.on('limit', () => {
           writeStream.end();
           fs.unlinkSync(filepath);
@@ -112,36 +96,81 @@ export const uploadSingleFile = (fieldName: string = 'file') => {
             new BadRequestError(`檔案大小超過限制 ${env.UPLOAD_MAX_FILE_SIZE / 1024 / 1024}MB`),
           );
         });
-        // 監聽結束事件
         file.on('end', () => {
           writeStream.end();
-          req.file = {
-            fieldname,
-            originalFilename: decodedOriginalFilename,
-            filename: uniqueFilename,
-            filepath,
-            mimeType,
-            size: fileSize,
-            buffer: Buffer.concat(chunks),
-          };
         });
-        // 監聽錯誤事件
         file.on('error', (err) => {
           writeStream.end();
-          if (fs.existsSync(filepath)) {
-            fs.unlinkSync(filepath);
+          if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+          filePhaseError = true;
+          return next(err);
+        });
+
+        // 等寫入完成後從磁碟讀出並呼叫 next()（大檔時 writeStream 比 busboy 晚 finish，必須由此處 next）
+        writeStream.on('finish', () => {
+          try {
+            const buffer = fs.readFileSync(filepath);
+            if (buffer.length !== fileSize) {
+              console.error(
+                `Upload file size mismatch: on-disk=${buffer.length} counted=${fileSize}`,
+              );
+              filePhaseError = true;
+              fs.unlinkSync(filepath);
+              return next(
+                new BadRequestError(
+                  '檔案接收不完整，請重試（若檔案較大請稍候再試）',
+                ),
+              );
+            }
+            // 若 request 標明要傳大檔但實際只收到很少 → 多半是 proxy/網路截斷，拒絕並提示
+            const contentLength = parseInt(req.headers['content-length'] || '0', 10);
+            if (contentLength > 1024 * 1024 && fileSize < 1024) {
+              filePhaseError = true;
+              fs.unlinkSync(filepath);
+              console.error(
+                `Upload truncated: Content-Length=${contentLength} received=${fileSize}. Check proxy (e.g. nginx client_max_body_size).`,
+              );
+              return next(
+                new BadRequestError(
+                  '檔案被截斷（僅收到 ' +
+                    fileSize +
+                    ' bytes）。若經 Nginx 等代理，請設定 client_max_body_size 50m 以上後重試。',
+                ),
+              );
+            }
+            req.file = {
+              fieldname,
+              originalFilename: decodedOriginalFilename,
+              filename: uniqueFilename,
+              filepath,
+              mimeType,
+              size: fileSize,
+              buffer,
+            };
+            console.log(
+              `📁 Upload ready: ${decodedOriginalFilename} size=${(fileSize / 1024 / 1024).toFixed(2)} MB`,
+            );
+            next();
+          } catch (err) {
+            filePhaseError = true;
+            if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+            return next(err instanceof Error ? err : new Error(String(err)));
           }
+        });
+        writeStream.on('error', (err) => {
+          filePhaseError = true;
+          if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
           return next(err);
         });
       });
-      // 監聽完成事件
+      // 有檔案時由 writeStream.on('finish') 負責 next()；無檔案時由此處報錯
       busboy.on('finish', () => {
         console.log('📦 Busboy finish event, fileProcessed:', fileProcessed);
         console.log('📋 Request body after parsing:', req.body);
         if (!fileProcessed) {
           return next(new BadRequestError('未找到上傳檔案'));
         }
-        next();
+        // fileProcessed === true 時不在此呼叫 next()，由 writeStream.on('finish') 呼叫
       });
       // 監聽錯誤事件
       busboy.on('error', (err) => {

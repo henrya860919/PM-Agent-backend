@@ -14,6 +14,12 @@ router.post('/upload', uploadSingleFile('file'), fileController.uploadFile);
 // 取得檔案列表
 router.get('/', fileController.getFiles);
 
+// 處理狀態、轉錄、分析（須在 /:fileId 之前，避免被當成 fileId）
+router.get('/:fileId/processing-status', fileController.getProcessingStatus);
+router.get('/:fileId/transcript', fileController.getTranscript);
+router.get('/:fileId/analysis', fileController.getAnalysis);
+router.post('/:fileId/process', fileController.triggerProcess);
+
 // 統一的檔案端點（下載/預覽）
 router.get('/:fileId', fileController.getFile);
 
