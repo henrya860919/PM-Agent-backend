@@ -138,3 +138,20 @@ dist/
 build/
 
 log/
+
+# Uploads directory (user uploaded files)
+uploads/
+
+# Build artifacts
+pm-agent-backend@*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
