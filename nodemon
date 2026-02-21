@@ -1,0 +1,796 @@
+
+[nodemon] 3.1.11
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): src/**/* .env
+[nodemon] watching extensions: ts,json
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local:    http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+✓ [FAST] Prisma Query (14.40ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (15.93ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM ublic"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (21.84ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (2.94ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+✓ [FAST] Prisma Query (1.42ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prry (2.13ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (0.93ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+✓ [FAST] Prisma Query (3.08ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (1.75ms): {
+  query: 'SELECT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (1.70ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (2.34ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (1.05ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."u
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+Unhandled error: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/UsersPM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:98:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:22:22) {
+  code: 'P2021',
+  meta: {
+    modelName: 'File',
+    driverAdapterError: DriverAdapterError: TableDoesNotExist
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:687:11)
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_mo
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/no
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:602:30)
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clie
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/tracing.ts:66:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:182:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:124:29)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:209:41)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:268:41)
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:93:23) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.4.0'
+}
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+[nodemon] still waiting for 1 sub-process to finish...
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+src/modules/file/controller.ts:44:40 - error TS2339: Property 'getFiles' does not exist on
+src/modules/file/controller.ts:44:40 - error TS2339: Property 'getFiles' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: strin
+src/modules/file/controller.ts:44:40 - error TS2339: Property 'getFiles' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: s
+src/mos/file/controller.ts:44:40 - error TS2339: Property 'getFiles' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(file: UploadedF
+src/modules/file/controller.ts:44:40 - error TS2339: Property 'getFiles' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(file: UploadedFile, businessType: string, uniqueFilename: string): Pr...'.
+
+44       const result = await fileService.getFiles(currentUserId, {
+                                          ~~~~~~~~
+src/modules/file/controller.ts:73:38 - error TS2339: Property 'getThumbnailForDownload' do
+src/modules/file/controller.ts:73:38 - error TS2339: Property 'getThumbnailForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(fi
+src/modules/file/controller.ts:73:38 - error TS2339: Property 'getThumbnailForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: 
+src/modules/file/controller.ts:73:38 - error TS2339: Property 'getThumbnailForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(
+src/modules/file/controller.ts:73:38 - error TS2339: Property 'getThumbnailForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(file: UploadedFile, businessType: string, uniqueFilename: string): Pr...'.
+
+73         fileInfo = await fileService.getThumbnailForDownload(currentUserId, params.file
+73         fileInfo = await fileService.getThumbnailForDownload(currentUserId, params.fileId);
+                                        ~~~~~~~~~~~~~~~~~~~~~~~
+src/modules/file/controller.ts:75:38 - error TS2339: Property 'getFileForDownload' does no
+src/modules/file/controller.ts:75:38 - error TS2339: Property 'getFileForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: {
+src/modules/file/controller.ts:75:38 - error TS2339: Property 'getFileForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thu
+src/modules/file/controller.ts:75:38 - error TS2339: Property 'getFileForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(file:
+src/modules/file/controller.ts:75:38 - error TS2339: Property 'getFileForDownload' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(file: UploadedFile, businessType: string, uniqueFilename: string): Pr...'.
+
+75         fileInfo = await fileService.getFileForDownload(currentUserId, params.fileId);
+                                        ~~~~~~~~~~~~~~~~~~
+src/modules/file/controller.ts:112:25 - error TS2339: Property 'deleteFile' does not exist
+src/modules/file/controller.ts:112:25 - error TS2339: Property 'deleteFile' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: st
+src/modules/file/controller.ts:112:25 - error TS2339: Property 'deleteFile' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?
+src/modules/file/controller.ts:112:25 - error TS2339: Property 'deleteFile' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(file: Upload
+src/modules/file/controller.ts:112:25 - error TS2339: Property 'deleteFile' does not exist on type '{ _cleanupTempFile(filepath: string): void; _transformToUploadDto(file: { id: string; originalFilename: string; fileSize: number; mimeType: string; metadata: { thumbnail?: string | undefined; } | null; }): FileUploadDto; _generateThumbnailIfNeeded(file: UploadedFile, businessType: string, uniqueFilename: string): Pr...'.
+
+112       await fileService.deleteFile(params.fileId, currentUserId);
+                            ~~~~~~~~~~
+
+    at createTSError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/sr
+    at createTSError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/sr
+    at reportTSError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/in
+    at getOutput (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/s
+    at Object.compile (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-nod
+    at Module.m._compile (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1839:10
+    at Object.require.extensions.<computed> [as .ts] (/Users/henrychang/Documents/PM-Agent
+    at Object.require.extensions.<computed> [as .ts] (/Users/henrychang/Documents/PM-Agent-backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+  diagnosticCodes: [ 2339, 2339, 2339, 2339 ]
+}
+[nodemon] app crashed - waiting for file changes before starting...
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local:    http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local:    http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+[nodemon] restarting due to changes...
+[nodemon] restarting due to changes...
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-pr src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local:    http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+✓ [FAST] Prisma Query (26.89ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (22.80ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (22.89ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."b
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (1.40ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+✓ [FAST] Prisma Query (1.50ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (3.23ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SEpublic"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (4.13ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (2.27ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+✓ [FAST] Prisma Query (2.43ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (S"public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (2.86ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (4.16ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (1.55ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."u
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+✓ [FAST] Prisma Query (2.83ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."password", "public"."users"."display_name", "pub...',
+  params: '["00000000-0000-0000-0000-000000000001","1","0"]'
+}
+File upload service error: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await he table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:107:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:22:22) {
+  code: 'P2021',
+  meta: {
+    modelName: 'File',
+    driverAdapterError: DriverAdapterError: TableDoesNotExist
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:687:11)
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_mo
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/no
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:602:30)
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clie
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/tracing.ts:66:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:182:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:124:29)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:209:41)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:268:41)
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:93:23) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.4.0'
+}
+File upload error: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/heAgent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:107:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:22:22) {
+  code: 'P2021',
+  meta: {
+    modelName: 'File',
+    driverAdapterError: DriverAdapterError: TableDoesNotExist
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:687:11)
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_mo
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/no
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:602:30)
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clie
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/tracing.ts:66:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:182:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:124:29)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:209:41)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:268:41)
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:93:23) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.4.0'
+}
+Unhandled error: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: strin| null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agt-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:107:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:22:22) {
+  code: 'P2021',
+  meta: {
+    modelName: 'File',
+    driverAdapterError: DriverAdapterError: TableDoesNotExist
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:687:11)
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_mo
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/no
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:602:30)
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clie
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/tracing.ts:66:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:182:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:124:29)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:209:41)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:268:41)
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:93:23) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.4.0'
+}
+Error stack: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychabackend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:107:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:22:22)
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+[nodemon] still waiting for 1 sub-process to finish...
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local:    http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+[nodemon] ting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+[nodemon] still waiting for 1 sub-process to finish...
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local:    http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+[nodemon] restarting due to changes...
+[nodemon] restarting due to changes...
+[nodemon] restarting due to changes...
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/ser
+[nodemon] starting `npx ts-node --project tsconfig.json -r tsconfig-paths/register src/server.ts`
+
+🚀 Server is running!
+📍 Local:    http://localhost:3000
+📍 Network:  http://0.0.0.0:3000
+
+✓ [FAST] Pris6ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (34.98ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (27.31ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (2.19ms): {
+  query: 'SELECT "public"."users"."id", "public"."useuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+✓ [FAST] Prisma Query (1.42ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (1.98ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (3.11ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FRLECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (1.05ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+✓ [FAST] Prisma Query (2.31ms): {
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"
+  query: 'SELECT "public"."projects"."id", "public"."projects"."uuid", "public"."projects"."name", "public"."projects"."code", "public"."projects"."description"...',
+  params: '["10","0"]'
+}
+✓ [FAST] Prisma Query (2.81ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FRLECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (2.88ms): {
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "pub
+  query: 'SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."projects"."id" FROM "public"."projects" WHERE "public"."projects"."deleted_at" IS NULL OFFSET ...',
+  params: '["0"]'
+}
+✓ [FAST] Prisma Query (1.79ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."display_name" FROM "public"."users" WHERE "publi...',
+  params: '["00000000-0000-0000-0000-000000000001","0"]'
+}
+📝 Field: businessType = project_document
+📝 Field: projectId = b5086e07-68dd-4bca1d45612225
+📦 Busboy finish event, fileProcessed: true
+📋 Request body after parsing: {
+  businessType: 'project_document',
+  projectId: 'b5086e07-68dd-4bca-b614-501d45612225'
+}
+📤 File upload request received
+Request body: {
+  businessType: 'project_document',
+  projectId: 'b5086e07-68dd-4bca-b614-501d45612225'
+}
+Request file: { name: '20260210_育堂進度報告.pdf', size: 2025111 }
+✅ Request body validated: {
+  businessType: 'project_document',
+  projectId: 'b5086e07-68dd-4bca-b614-501d45612225'
+}
+👤 Current user ID: 00000000-0000-0000-0000-000000000001
+🔍 Checking user existence: 00000000-0000-0000-0000-000000000001
+✓ [FAST] Prisma Query (1.97ms): {
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."usernam
+  query: 'SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."username", "public"."users"."password", "public"."users"."display_name", "pub...',
+  params: '["00000000-0000-0000-0000-000000000und: testuser
+💾 Getting storage instance...
+File upload service error: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.requecuments/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:111:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:30:22) {
+  code: 'P2021',
+  meta: {
+    modelName: 'File',
+    driverAdapterError: DriverAdapterError: TableDoesNotExist
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:687:11)
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_mo
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/no
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:602:30)
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clie
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/tracing.ts:66:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:182:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:124:29)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:209:41)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:268:41)
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:93:23) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.4.0'
+}
+❌ File upload error: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handlnrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:111:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:30:22) {
+  code: 'P2021',
+  meta: {
+    modelName: 'File',
+    driverAdapterError: DriverAdapterError: TableDoesNotExist
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:687:11)
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_mo
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/no
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:602:30)
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clie
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/tracing.ts:66:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:182:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:124:29)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:209:41)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:268:41)
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:93:23) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.4.0'
+}
+Error message: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+Error stack: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> ndFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:111:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:30:22)
+Unhandled error: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/h-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:111:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:30:22) {
+  code: 'P2021',
+  meta: {
+    modelName: 'File',
+    driverAdapterError: DriverAdapterError: TableDoesNotExist
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+        at PrismaPgAdapter.onError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:687:11)
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_mo
+        at PrismaPgAdapter.performIO (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/no
+        at async PrismaPgAdapter.queryRaw (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/adapter-pg/dist/index.js:602:30)
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clie
+        at async o (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/tracing.ts:66:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:182:26)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:124:29)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:209:41)
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_module
+        at async e.interpretNode (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:268:41)
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/
+        at async e.run (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:93:23) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.4.0'
+}
+Error stack: PrismaClientKnownRequestError: 
+Invalid `prisma.file.findFirst()` invocation in
+/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:36
+
+  90 
+  91 // 透過 hash 查找檔案（去重）
+  92 async findByHash(fileHash: string, projectId?: string): Promise<FileDto | null> {
+→ 93   const file = await prisma.file.findFirst(
+The table `public.files` does not exist in the current database.
+    at zr.handleRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@p
+    at zr.handleRequestEr/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modu
+    at zr.handleAndLogRequestError (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/clien
+    at zr.request (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/s
+    at async a (/Users/henrychang/Documents/PM-Agent-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:807:24)
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.findByHash (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/repository.ts:93:18)
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/f
+    at async Object.uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/service.ts:111:26)
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/con
+    at async uploadFile (/Users/henrychang/Documents/PM-Agent-backend/src/modules/file/controller.ts:30:22)

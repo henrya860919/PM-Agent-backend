@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 使用者
+model User {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique @default(uuid()) @db.Uuid
+
+  username String @unique @db.VarChar(20)
+  password String @db.VarChar(64)
+
+  displayName String  @map("display_name") @db.VarChar(100)
+  email       String? @db.VarChar(255)
+  phone       String? @db.VarChar(20)
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  createdById String?   @map("created_by_id") @db.Uuid
+  createdBy   User?     @relation("CreatedBy", fields: [createdById], references: [uuid])
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  deletedById String?   @map("deleted_by_id") @db.Uuid
+  deletedBy   User?     @relation("DeletedBy", fields: [deletedById], references: [uuid])
+
+  createdUsers User[] @relation("CreatedBy")
+  deletedUsers User[] @relation("DeletedBy")
+
+  ownedProjects   Project[] @relation("ProjectOwner")
+  createdProjects Project[] @relation("ProjectCreatedBy")
+  deletedProjects Project[] @relation("ProjectDeletedBy")
+  uploadedFiles   File[]    @relation("FileUploadedBy")
+  deletedFiles    File[]    @relation("FileDeletedBy")
+
+  @@index([deletedAt])
+  @@index([email])
+  @@index([phone])
+  @@index([displayName])
+  @@map("users")
+}
+
+// 專案
+model Project {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique @default(uuid()) @db.Uuid
+
+  name            String    @db.VarChar(100)
+  code            String    @db.VarChar(20)
+  description     String?   @db.Text
+  status          String    @db.VarChar(20)
+  ownerId         String    @map("owner_id") @db.Uuid
+  owner           User      @relation("ProjectOwner", fields: [ownerId], references: [uuid])
+  client          String?   @db.VarChar(10)
+  startDate       DateTime? @map("start_date")
+  expectedEndDate DateTime? @map("expected_end_date") // 預計完成日期
+  address         String?   @db.VarChar(500) // 詳細地址
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  createdById String?   @map("created_by_id") @db.Uuid
+  createdBy   User?     @relation("ProjectCreatedBy", fields: [createdById], references: [uuid])
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  deletedById String?   @map("deleted_by_id") @db.Uuid
+  deletedBy   User?     @relation("ProjectDeletedBy", fields: [deletedById], references: [uuid])
+
+  files File[] @relation("ProjectFiles")
+
+  // 注意：使用部分唯一索引（partial unique index）來確保未刪除時 code 唯一
+  // Prisma 的 @@unique 無法正確表達「deleted_at IS NULL 才唯一」的語意（PostgreSQL 對 NULL 的處理會放行）
+  // 需要在 migration 中手動建立：CREATE UNIQUE INDEX ... ON "projects"("code") WHERE "deleted_at" IS NULL;
+  @@index([code, deletedAt])
+  @@index([ownerId])
+  @@index([status, deletedAt])
+  @@index([deletedAt])
+  @@index([name]) // 用於搜尋和排序專案名稱
+  @@map("projects")
+}
+
+// 檔案
+model File {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique @default(uuid()) @db.Uuid
+
+  projectId        String? @map("project_id") @db.Uuid
+  originalFilename String  @map("original_filename") @db.VarChar(255)
+  filename         String  @db.VarChar(255)
+  fileSize         BigInt  @map("file_size")
+  mimeType         String  @map("mime_type") @db.VarChar(100)
+  extension        String? @db.VarChar(10)
+
+  storagePath String @map("storage_path") @db.Text
+  storageType String @map("storage_type") @db.VarChar(20)
+  fileHash    String @map("file_hash") @db.VarChar(64)
+
+  businessType String  @map("business_type") @db.VarChar(50)
+  businessId   String? @map("business_id") @db.VarChar(255)
+
+  isPublic Boolean @default(false) @map("is_public")
+
+  metadata Json?
+  tags     Json?
+
+  uploadedById String    @map("uploaded_by_id") @db.Uuid
+  uploadedBy   User      @relation("FileUploadedBy", fields: [uploadedById], references: [uuid])
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+  deletedById  String?   @map("deleted_by_id") @db.Uuid
+  deletedBy    User?     @relation("FileDeletedBy", fields: [deletedById], references: [uuid])
+
+  project Project? @relation("ProjectFiles", fields: [projectId], references: [uuid])
+
+  @@index([projectId])
+  @@index([uploadedById])
+  @@index([fileHash])
+  @@index([businessType, businessId])
+  @@index([createdAt])
+  @@index([deletedAt])
+  @@map("files")
+}
