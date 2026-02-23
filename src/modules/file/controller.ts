@@ -59,6 +59,9 @@ export const fileController = {
         businessType: query.businessType,
         type: query.type,
         search: query.search,
+        sortBy: query.sortBy,
+        sortOrder: query.sortOrder,
+        hasAnalyzed: query.hasAnalyzed,
         page: query.page,
         limit: query.limit,
       });

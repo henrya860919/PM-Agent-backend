@@ -104,16 +104,19 @@ export const fileRepository = {
     return this.transformToDto(file);
   },
 
-  // 查詢檔案列表
+  // 查詢檔案列表（規格 FR-1.4 排序、FR-2.3 是否已分析篩選）
   async findMany(options: {
     projectId?: string;
     businessType?: string;
     type?: 'all' | 'audio' | 'transcript' | 'document' | 'image';
     search?: string;
+    sortBy?: 'createdAt' | 'originalFilename' | 'fileSize' | 'mimeType';
+    sortOrder?: 'asc' | 'desc';
+    hasAnalyzed?: 'all' | 'yes' | 'no';
     page: number;
     limit: number;
   }): Promise<{ files: FileListDto[]; total: number }> {
-    const { projectId, businessType, type, search, page, limit } = options;
+    const { projectId, businessType, type, search, sortBy = 'createdAt', sortOrder = 'desc', hasAnalyzed = 'all', page, limit } = options;
     const skip = (page - 1) * limit;
 
     // 構建 MIME type 篩選條件
@@ -157,15 +160,23 @@ export const fileRepository = {
           mode: 'insensitive',
         },
       }),
+      ...(hasAnalyzed === 'yes' && { intakes: { some: {} } }),
+      ...(hasAnalyzed === 'no' && { intakes: { none: {} } }),
     };
+
+    const orderByKey = sortBy === 'fileSize' ? 'fileSize' : sortBy;
+    const orderBy = { [orderByKey]: sortOrder } as Prisma.FileOrderByWithRelationInput;
+
+    const listSelectWithIntakes = {
+      ...fileSelect,
+      intakes: { take: 1, select: { uuid: true } },
+    } satisfies Prisma.FileSelect;
 
     const [files, total] = await Promise.all([
       prisma.file.findMany({
         where,
-        select: fileSelect,
-        orderBy: {
-          createdAt: 'desc',
-        },
+        select: listSelectWithIntakes,
+        orderBy,
         skip,
         take: limit,
       }),
@@ -196,6 +207,7 @@ export const fileRepository = {
   transformToDto(file: Prisma.FileGetPayload<{ select: typeof fileSelect }>): FileDto {
     return {
       id: file.uuid,
+      projectId: file.projectId,
       originalFilename: file.originalFilename,
       filename: file.filename,
       fileSize: Number(file.fileSize),
@@ -219,8 +231,10 @@ export const fileRepository = {
     };
   },
 
-  // 將 Prisma 結果轉換為列表 DTO
-  transformToListDto(file: Prisma.FileGetPayload<{ select: typeof fileSelect }>): FileListDto {
+  // 將 Prisma 結果轉換為列表 DTO（支援含 intakes 的 list 查詢結果，用於 hasAnalyzed）
+  transformToListDto(
+    file: Prisma.FileGetPayload<{ select: typeof fileSelect }> & { intakes?: { uuid: string }[] },
+  ): FileListDto {
     const metadata = file.metadata as { thumbnail?: string } | null;
     return {
       id: file.uuid,
@@ -239,6 +253,7 @@ export const fileRepository = {
       ...(metadata?.thumbnail && {
         thumbnailUrl: `/api/files/${file.uuid}?thumbnail=true`,
       }),
+      hasAnalyzed: file.intakes != null && file.intakes.length > 0,
     };
   },
 };

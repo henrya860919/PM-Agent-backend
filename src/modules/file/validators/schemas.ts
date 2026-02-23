@@ -24,7 +24,7 @@ export const fileIdParamSchema = z.object({
 
 export type FileIdParam = z.infer<typeof fileIdParamSchema>;
 
-// 檔案列表查詢參數
+// 檔案列表查詢參數（規格 FR-1.4 排序、FR-2.3 是否已分析篩選）
 export const getFilesQuerySchema = createPaginationWithSearchSchema('1', '10', 100, 100).extend({
   projectId: z.string().uuid('專案 ID 格式錯誤').optional(),
   businessType: z
@@ -36,6 +36,21 @@ export const getFilesQuerySchema = createPaginationWithSearchSchema('1', '10', 1
     .optional()
     .default('all')
     .describe('檔案類型篩選'),
+  sortBy: z
+    .enum(['createdAt', 'originalFilename', 'fileSize', 'mimeType'])
+    .optional()
+    .default('createdAt')
+    .describe('排序欄位'),
+  sortOrder: z
+    .enum(['asc', 'desc'])
+    .optional()
+    .default('desc')
+    .describe('排序方向'),
+  hasAnalyzed: z
+    .enum(['all', 'yes', 'no'])
+    .optional()
+    .default('all')
+    .describe('是否已有 Intake 分析'),
 });
 
 export type GetFilesQuery = z.infer<typeof getFilesQuerySchema>;

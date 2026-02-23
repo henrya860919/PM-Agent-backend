@@ -19,6 +19,7 @@ export type FileMetadata = {
 // 檔案資料傳輸物件
 export type FileDto = {
   id: string;
+  projectId: string | null;
   originalFilename: string;
   filename: string;
   fileSize: number;
@@ -51,7 +52,7 @@ export type FileUploadDto = {
   thumbnailUrl?: string; // 縮圖 URL
 };
 
-// 檔案列表查詢結果
+// 檔案列表查詢結果（規格 FR-1.2：已分析標記）
 export type FileListDto = {
   id: string;
   originalFilename: string;
@@ -67,6 +68,8 @@ export type FileListDto = {
   createdAt: Date;
   url: string;
   thumbnailUrl?: string;
+  /** 是否有關聯的 Intake（已分析）；規格 FR-1.2 */
+  hasAnalyzed?: boolean;
 };
 
 // 轉錄狀態與前端對齊的 logic flag

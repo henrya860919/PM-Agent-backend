@@ -4,9 +4,11 @@ import { storageConfig } from '@/config/storage.config';
 import { FILE_BUSINESS_TYPE } from '@/constants/file';
 import { prisma } from '@/lib/prisma';
 import { UploadedFile } from '@/middleware/upload';
+import { INTAKE_STATUS } from '@/constants/intake';
 import { fileAnalysisRepository } from '@/modules/file/file-analysis.repository';
 import { fileTranscriptRepository } from '@/modules/file/file-transcript.repository';
 import { fileRepository } from '@/modules/file/repository';
+import { intakeRepository } from '@/modules/intake/intake.repository';
 import {
   FileAnalysisDto,
   FileListDto,
@@ -220,24 +222,29 @@ export const fileService = {
     }
   },
 
-  // 取得檔案列表
+  // 取得檔案列表（規格 FR-1、FR-2：排序、篩選、已分析標記）
   async getFiles(
-    userId: string,
+    _userId: string,
     query: {
       projectId?: string;
       businessType?: string;
       type?: 'all' | 'audio' | 'transcript' | 'document' | 'image';
       search?: string;
+      sortBy?: 'createdAt' | 'originalFilename' | 'fileSize' | 'mimeType';
+      sortOrder?: 'asc' | 'desc';
+      hasAnalyzed?: 'all' | 'yes' | 'no';
       page: number;
       limit: number;
     },
   ): Promise<{ files: FileListDto[]; total: number; page: number; limit: number }> {
-    // 簡單的權限檢查：只能查看自己專案的檔案或沒有專案的檔案
     const result = await fileRepository.findMany({
       projectId: query.projectId,
       businessType: query.businessType,
       type: query.type,
       search: query.search,
+      sortBy: query.sortBy,
+      sortOrder: query.sortOrder,
+      hasAnalyzed: query.hasAnalyzed,
       page: query.page,
       limit: query.limit,
     });
@@ -422,10 +429,12 @@ export const fileService = {
       const analysisRow = await fileAnalysisRepository.findByFileId(fileId);
       if (analysisRow?.status === 'completed') {
         console.log(`✅ [音檔處理] 已完成: ${file.originalFilename}`);
+        await this._ensureIntakeForFile(fileId, userId);
         return;
       }
       const transcript = transcriptRow.transcript;
       await this._runAnalysis(fileId, transcript, file.originalFilename);
+      await this._ensureIntakeForFile(fileId, userId);
       return;
     }
 
@@ -473,12 +482,50 @@ export const fileService = {
         status: 'failed',
         errorMessage: message,
       });
+      await this._ensureIntakeForFile(fileId, userId);
       return;
     }
 
     const updated = await fileTranscriptRepository.findByFileId(fileId);
     const transcript = updated?.transcript ?? '';
     await this._runAnalysis(fileId, transcript, file.originalFilename);
+    await this._ensureIntakeForFile(fileId, userId);
+  },
+
+  /**
+   * 音檔處理完成後建立或更新 Intake（規格 IA-3.1：從上傳建立 Intake）
+   * 同一 File 僅保留一筆 Intake，依轉錄/分析狀態寫入 status
+   */
+  async _ensureIntakeForFile(fileId: string, userId: string): Promise<void> {
+    const file = await fileRepository.findByUuid(fileId);
+    if (!file || !file.mimeType.startsWith('audio/')) return;
+
+    const transcript = await fileTranscriptRepository.findByFileId(fileId);
+    const analysis = await fileAnalysisRepository.findByFileId(fileId);
+
+    let status: string = INTAKE_STATUS.PROCESSING;
+    if (transcript?.status === 'failed') {
+      status = INTAKE_STATUS.FAILED;
+    } else if (analysis?.status === 'failed') {
+      status = INTAKE_STATUS.TRANSCRIPT_OK_ANALYSIS_FAILED;
+    } else if (transcript?.status === 'completed' && analysis?.status === 'completed') {
+      status = INTAKE_STATUS.COMPLETED;
+    }
+
+    const title = file.originalFilename.slice(0, 500);
+    const projectId = file.projectId ?? null;
+    const existing = await intakeRepository.findBySourceFileId(fileId);
+    if (existing) {
+      await intakeRepository.updateStatus(existing.uuid, status);
+    } else {
+      await intakeRepository.create({
+        sourceFileId: fileId,
+        projectId,
+        title,
+        status,
+        createdById: userId,
+      });
+    }
   },
 
   async _runAnalysis(

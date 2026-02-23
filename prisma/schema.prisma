@@ -37,6 +37,8 @@ model User {
   deletedProjects Project[] @relation("ProjectDeletedBy")
   uploadedFiles   File[]    @relation("FileUploadedBy")
   deletedFiles    File[]    @relation("FileDeletedBy")
+  createdIntakes   Intake[]       @relation("IntakeCreatedBy")
+  createdMeetingNotes MeetingNote[] @relation("MeetingNoteCreatedBy")
 
   @@index([deletedAt])
   @@index([email])
@@ -69,7 +71,9 @@ model Project {
   deletedById String?   @map("deleted_by_id") @db.Uuid
   deletedBy   User?     @relation("ProjectDeletedBy", fields: [deletedById], references: [uuid])
 
-  files File[] @relation("ProjectFiles")
+  files        File[]        @relation("ProjectFiles")
+  intakes      Intake[]      @relation("IntakeProject")
+  meetingNotes MeetingNote[] @relation("MeetingNoteProject")
 
   // 注意：使用部分唯一索引（partial unique index）來確保未刪除時 code 唯一
   // Prisma 的 @@unique 無法正確表達「deleted_at IS NULL 才唯一」的語意（PostgreSQL 對 NULL 的處理會放行）
@@ -118,6 +122,7 @@ model File {
 
   transcript FileTranscript? @relation("FileTranscript")
   analysis   FileAnalysis?   @relation("FileAnalysis")
+  intakes    Intake[]        @relation("IntakeSourceFile")
 
   @@index([projectId])
   @@index([uploadedById])
@@ -126,6 +131,57 @@ model File {
   @@index([createdAt])
   @@index([deletedAt])
   @@map("files")
+}
+
+// Intake：一筆「音檔 → 轉錄 → 分析」的完整產出紀錄（規格 3. Intake & Analysis）
+// 與 File 關聯：同一 File 僅保留一筆 Intake 並覆寫（規格 9.2 擇一）
+model Intake {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid()) @db.Uuid
+  sourceFileId String? @map("source_file_id") @db.Uuid
+  projectId String?  @map("project_id") @db.Uuid
+  title     String   @db.VarChar(500)
+  status    String   @db.VarChar(50) // processing | completed | transcript_ok_analysis_failed | failed（規格 11）
+  createdById String? @map("created_by_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  sourceFile File?   @relation("IntakeSourceFile", fields: [sourceFileId], references: [uuid], onDelete: SetNull)
+  createdBy  User?   @relation("IntakeCreatedBy", fields: [createdById], references: [uuid])
+  project    Project? @relation("IntakeProject", fields: [projectId], references: [uuid])
+
+  meetingNotes MeetingNote[] @relation("MeetingNoteSourceIntake")
+
+  @@index([sourceFileId])
+  @@index([projectId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("intakes")
+}
+
+// 會議記錄／備忘錄（規格 4. 會議記錄與備忘錄）
+// type: meeting_note | memo；一鍵從 Intake 生成時帶入 sourceIntakeId
+model MeetingNote {
+  id             Int      @id @default(autoincrement())
+  uuid           String   @unique @default(uuid()) @db.Uuid
+  type           String   @db.VarChar(20) // meeting_note | memo
+  title          String   @db.VarChar(500)
+  content        String   @db.Text // 初稿為純文字或 Markdown，可再擴充 html
+  projectId      String?  @map("project_id") @db.Uuid
+  sourceIntakeId String?  @map("source_intake_id") @db.Uuid
+  createdById    String?  @map("created_by_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  sourceIntake Intake?  @relation("MeetingNoteSourceIntake", fields: [sourceIntakeId], references: [uuid], onDelete: SetNull)
+  project      Project? @relation("MeetingNoteProject", fields: [projectId], references: [uuid])
+  createdBy    User?    @relation("MeetingNoteCreatedBy", fields: [createdById], references: [uuid])
+
+  @@index([sourceIntakeId])
+  @@index([projectId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("meeting_notes")
 }
 
 // 檔案轉錄（僅音檔，與 File 一對一綁定）
