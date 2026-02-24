@@ -192,6 +192,7 @@ model FileTranscript {
   file      File     @relation("FileTranscript", fields: [fileId], references: [uuid], onDelete: Cascade)
 
   transcript   String   @db.Text
+  segments     Json?    @db.Json
   language     String?  @db.VarChar(10)
   duration     Int?
   wordCount    Int?     @map("word_count")

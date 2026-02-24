@@ -14,10 +14,19 @@ function getClient(): OpenAI {
   return openai;
 }
 
+/** 單一時間區間與對應文字（Whisper verbose_json segments） */
+export type WhisperSegment = {
+  start: number;
+  end: number;
+  text: string;
+};
+
 export type WhisperResult = {
   text: string;
   language?: string;
   duration?: number;
+  /** 時間軸：每段的開始/結束秒數與文字，供前端列表與跳轉使用 */
+  segments: WhisperSegment[];
 };
 
 /**
@@ -55,10 +64,24 @@ export async function transcribeWithWhisper(
     response_format: 'verbose_json',
   });
 
-  const verbose = response as { text: string; language?: string; duration?: number };
+  type VerboseResponse = {
+    text?: string;
+    language?: string;
+    duration?: number;
+    segments?: Array<{ start: number; end: number; text: string }>;
+  };
+  const verbose = response as VerboseResponse;
+  const rawSegments = verbose.segments ?? [];
+  const segments: WhisperSegment[] = rawSegments.map((s) => ({
+    start: Number(s.start),
+    end: Number(s.end),
+    text: String(s.text ?? '').trim(),
+  })).filter((s) => s.text.length > 0);
+
   return {
     text: verbose.text ?? (typeof response === 'string' ? response : ''),
     language: verbose.language,
     duration: verbose.duration,
+    segments,
   };
 }

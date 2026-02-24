@@ -1,11 +1,12 @@
 // src/modules/file/file-transcript.repository.ts
 import { prisma } from '@/lib/prisma';
-import { FileTranscriptDto } from '@/modules/file/type';
+import { FileTranscriptDto, TranscriptSegmentDto } from '@/modules/file/type';
 
 const select = {
   uuid: true,
   fileId: true,
   transcript: true,
+  segments: true,
   language: true,
   duration: true,
   wordCount: true,
@@ -15,6 +16,21 @@ const select = {
   createdAt: true,
   updatedAt: true,
 } as const;
+
+function parseSegments(raw: unknown): TranscriptSegmentDto[] | null {
+  if (!Array.isArray(raw)) return null;
+  const out: TranscriptSegmentDto[] = [];
+  for (const item of raw) {
+    if (item && typeof item === 'object' && 'start' in item && 'end' in item && 'text' in item) {
+      out.push({
+        start: Number((item as any).start),
+        end: Number((item as any).end),
+        text: String((item as any).text ?? ''),
+      });
+    }
+  }
+  return out.length ? out : null;
+}
 
 export const fileTranscriptRepository = {
   async create(
@@ -48,6 +64,7 @@ export const fileTranscriptRepository = {
     fileId: string,
     data: {
       transcript?: string;
+      segments?: TranscriptSegmentDto[] | null;
       language?: string | null;
       duration?: number | null;
       wordCount?: number | null;
@@ -60,6 +77,7 @@ export const fileTranscriptRepository = {
       where: { fileId },
       data: {
         ...(data.transcript !== undefined && { transcript: data.transcript }),
+        ...(data.segments !== undefined && { segments: data.segments as any }),
         ...(data.language !== undefined && { language: data.language }),
         ...(data.duration !== undefined && { duration: data.duration }),
         ...(data.wordCount !== undefined && { wordCount: data.wordCount }),
@@ -76,6 +94,7 @@ export const fileTranscriptRepository = {
     uuid: string;
     fileId: string;
     transcript: string;
+    segments: unknown;
     language: string | null;
     duration: number | null;
     wordCount: number | null;
@@ -89,6 +108,7 @@ export const fileTranscriptRepository = {
       id: row.uuid,
       fileId: row.fileId,
       transcript: row.transcript,
+      segments: parseSegments(row.segments),
       language: row.language,
       duration: row.duration,
       wordCount: row.wordCount,

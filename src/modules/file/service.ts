@@ -466,8 +466,9 @@ export const fileService = {
         const wordCount = whisperResult.text.trim().split(/\s+/).filter(Boolean).length;
         await fileTranscriptRepository.updateByFileId(fileId, {
           transcript: whisperResult.text,
+          segments: whisperResult.segments.length ? whisperResult.segments : null,
           language: whisperResult.language ?? null,
-          duration: whisperResult.duration ?? null,
+          duration: whisperResult.duration != null ? Math.round(whisperResult.duration) : null,
           wordCount,
           whisperModel: env.WHISPER_MODEL,
           status: 'completed',

@@ -87,10 +87,19 @@ export type LogicFlagDto = {
   source: string;
 };
 
+/** 轉錄時間軸區間：開始/結束秒數與該段文字 */
+export type TranscriptSegmentDto = {
+  start: number;
+  end: number;
+  text: string;
+};
+
 export type FileTranscriptDto = {
   id: string;
   fileId: string;
   transcript: string;
+  /** 時間軸區間列表，供前端列出與跳轉 */
+  segments: TranscriptSegmentDto[] | null;
   language: string | null;
   duration: number | null;
   wordCount: number | null;
